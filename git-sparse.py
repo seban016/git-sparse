@@ -62,7 +62,6 @@ def open_checkout_file(gitpath):
     using preferred text editor."""
     print("Opening text editor... ")
     print("Add paths to checkout, then save and close.")
-
     touch_checkout_file(gitpath) # in case no file
     call(['xdg-open', gitpath +
           '/.git/info/sparse-checkout'])
