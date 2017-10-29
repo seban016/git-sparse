@@ -2,7 +2,7 @@
 `git sparse` is a helper command to make sparse checkouts easier.
 
 Let's say you have a big repository, but you are only interested in `<repo>/directory-one/` and `<repo>/directory-two/`.
-Then all you have to do is:
+Then you can do:
 ```
 $ cd <path-to-repo>
 $ git sparse add "/directory-one" "/directory-two"
