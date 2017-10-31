@@ -6,7 +6,7 @@ Usage:
 $ cd <git-repository>
 $ git sparse                         # opens 'sparse-checkout' file for edit
 $ git sparse add <path1> <path2> ... # add <path1>...<pathn> (alternative to 'git sparse')
-$ git sparse update                  # update to the new paths
+$ git sparse update                  # update the working tree to show paths
 
 Example workflow when cloning a new repo:
 $ git clone -b <branch> -n --depth=1 <repo-url>  # shallow clone of one branch (no history)
@@ -14,8 +14,10 @@ $ cd <repo>
 $ git sparse add <path1> <path2> ... <pathn>
 $ git sparse update
 
-Note: To see the whole repository again, add "/*" to the
-sparse-checkout-file and run "git sparse update".
+Note: 
+- To see the whole repository again, add "/*" to the sparse-checkout-file and run "git sparse update".
+- To change the default editor, set the $EDITOR environmental variable, e.g.:
+  $ export EDITOR=nano
 """
 from __future__ import print_function
 
@@ -55,7 +57,19 @@ def touch_checkout_file(gitpath):
             if e.errno != errno.EEXIST:
                 raise
     open(infopath + '/sparse-checkout', 'a').close()
-        
+    
+    
+def edit(filename):
+    """Open <filename> in default text editor. 
+
+    Opens either the editor defined by the
+    $EDITOR environmental variable, or if not defined, 
+    the OS-defined preferred editor."""
+    try:
+        call([os.environ['EDITOR'], filename])
+    except KeyError:
+        call(['xdg-open', filename])
+
 
 def open_checkout_file(gitpath):
     """Open sparse-checkout-file for repo at <gitpath>
@@ -63,8 +77,7 @@ def open_checkout_file(gitpath):
     print("Opening text editor... ")
     print("Add paths to checkout, then save and close.")
     touch_checkout_file(gitpath) # in case no file
-    call(['xdg-open', gitpath +
-          '/.git/info/sparse-checkout'])
+    edit(gitpath + '/.git/info/sparse-checkout')
 
 
 def update_worktree():
