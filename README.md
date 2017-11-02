@@ -1,5 +1,5 @@
 # git sparse
-`git sparse` is a helper command to make sparse checkouts easier.
+`git sparse` is a helper command to make sparse checkouts easier, inspired by Marco Yuen's blogpost ["Streamlining Git Sparse Checkout with git-sparse"](http://www.marcoyuen.com/articles/2016/06/07/git-sparse.html).
 
 Let's say you have a big repository, but you are only interested in `<repo>/directory-one/` and `<repo>/directory-two/`.
 Then you can do:
